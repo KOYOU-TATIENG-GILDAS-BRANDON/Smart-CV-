@@ -160,7 +160,7 @@
     </select>
 
     <label>Niveau d’étude</label>
-    <select id="niveau">
+    <select id="niveau_formation">
       <option value="">Choisir...</option>
       <option>CEP</option>
       <option>BEPC</option>
@@ -240,7 +240,7 @@ function send() {
     sexe: sexe.value,
     ville: ville.value.trim(),
     statut: statut.value,
-    niveau_formation: niveau.value,
+    niveau_formation: niveau_formation.value,
     experience: parseInt(experience_annees.value),
     profession: profession.value,
     salaire: salaire.value,
