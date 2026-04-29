@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCV – Données</title>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSy...",
+      authDomain: "smartcv-gildas.firebaseapp.com",
+      databaseURL: "https://smartcv-gildas-default-rtdb.firebaseio.com/",
+      projectId: "smartcv-gildas",
+      storageBucket: "smartcv-gildas.firebasestorage.app",
+      messagingSenderId: "292069513256",
+      appId: "1:292069513256:web:af2bab1d97169ac228fd1d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.db = getDatabase(app);
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0A192F;
+      min-height: 100vh;
+      color: #E6F1FF;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #112240;
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid #65C2CC;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+      color: #65C2CC;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #FF9F1C;
+      margin-bottom: 30px;
+    }
+
+    .nav {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .nav a {
+      display: inline-block;
+      color: #E6F1FF;
+      text-decoration: none;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 10px;
+      background: rgba(101, 194, 204, 0.2);
+      border: 1px solid #65C2CC;
+    }
+
+    /* TABLE */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      min-width: 800px;
+      border-collapse: collapse;
+      background: #172A45;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    thead {
+      background: rgba(101, 194, 204, 0.2);
+      color: #65C2CC;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    /* 📱 MOBILE */
+    @media (max-width: 768px) {
+
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      .subtitle {
+        font-size: 0.9em;
+      }
+
+      .nav a {
+        display: block;
+        margin: 8px 0;
+        font-size: 14px;
+      }
+
+      th, td {
+        font-size: 12px;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>📋 Données SmartCV</h1>
+    <p class="subtitle">Liste de tous les profils carrière collectés</p>
+
+    <div class="nav">
+      <a href="index.html">🏠 Accueil</a>
+      <a href="form.html">📝 Formulaire</a>
+      <a href="graph.html">📊 Graphes</a>
+    </div>
+
+    <div class="table-container">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Âge</th>
+            <th>Sexe</th>
+            <th>Ville</th>
+            <th>Statut</th>
+            <th>Niveau</th>
+            <th>Exp</th>
+            <th>Profession</th>
+            <th>Salaire</th>
+            <th>Sat</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    SmartCV – INF 232 EC2 · Gildas TATIENG · 2026
+  </footer>
+
+  <script type="module">
+    import { ref, onValue } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+
+    onValue(ref(window.db, 'profil_carriere'), (snapshot) => {
+      const data = snapshot.val();
+      const tbody = document.querySelector('#dataTable tbody');
+      tbody.innerHTML = '';
+
+      if (data) {
+        Object.values(data).forEach(p => {
+          const row = `<tr>
+            <td>${p.nom || '-'}</td>
+            <td>${p.age || '-'}</td>
+            <td>${p.sexe || '-'}</td>
+            <td>${p.ville || '-'}</td>
+            <td>${p.statut || '-'}</td>
+            <td>${p.niveau || '-'}</td>
+            <td>${p.experience || '-'}</td>
+            <td>${p.profession || '-'}</td>
+            <td>${p.salaire || '-'}</td>
+            <td>${p.satisfaction || '-'}</td>
+          </tr>`;
+          tbody.innerHTML += row;
+        });
+      }
+    });
+  </script>
+</body>
+</html>

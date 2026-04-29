@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCV – Accueil</title>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import { getDatabase } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBgMe1IeUXUH6t8fZdy2v_-DgC_NebzZsI",
+      authDomain: "smartcv-gildas.firebaseapp.com",
+      databaseURL: "https://smartcv-gildas-default-rtdb.firebaseio.com/",
+      projectId: "smartcv-gildas",
+      storageBucket: "smartcv-gildas.firebasestorage.app",
+      messagingSenderId: "292069513256",
+      appId: "1:292069513256:web:af2bab1d97169ac228fd1d",
+      measurementId: "G-G0MMKDVDJ2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.db = getDatabase(app);
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #0A192F;
+      min-height: 100vh;
+      color: #E6F1FF;
+      padding: 20px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #112240;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      padding: 40px;
+      border: 1px solid #65C2CC;
+    }
+
+    .logo-container { text-align: center; margin-bottom: 20px; }
+    .logo-container img { width: 160px; border-radius: 15px; }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2.8em;
+      color: #65C2CC;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #FF9F1C;
+      margin-bottom: 40px;
+      font-size: 1.2em;
+    }
+
+    .nav {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav a {
+      color: #E6F1FF;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      background: rgba(101, 194, 204, 0.2);
+      border: 1px solid #65C2CC;
+      transition: all 0.3s;
+    }
+
+    .nav a:hover {
+      background: #65C2CC;
+      color: #0A192F;
+      transform: translateY(-2px);
+    }
+
+    .welcome {
+      text-align: center;
+      font-size: 1.2em;
+      color: #cbd5e0;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: #172A45;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(101, 194, 204, 0.3);
+    }
+
+    .feature-card h3 {
+      color: #65C2CC;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      color: #a0aec0;
+      font-size: 0.9em;
+    }
+
+    /* 📱 MOBILE */
+    @media (max-width: 768px) {
+
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      .logo-container img {
+        width: 120px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      .subtitle {
+        font-size: 1em;
+        margin-bottom: 25px;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav a {
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 12px;
+      }
+
+      .welcome {
+        font-size: 1em;
+        padding: 0 5px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="logo-container">
+        <img src="IMG-20260424-WA0004-removebg-preview.png" alt="SmartCV Logo">
+    </div>
+
+    <h1>SmartCV – Profil carrière</h1>
+    <p class="subtitle">Application de collecte et d’analyse (INF 232 EC2)</p>
+
+    <div class="nav">
+      <a href="form.html">📝 Ajouter un profil</a>
+      <a href="data.html">📋 Voir les données</a>
+      <a href="graph.html">📊 Voir les graphes</a>
+    </div>
+
+    <div class="welcome">
+      <p>
+        Recueillez le profil de carrière des utilisateurs et visualisez les tendances et moyennes en temps réel.
+      </p>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <h3>Collecte en ligne</h3>
+        <p>Stockage sécurisé et instantané via Firebase.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Statistiques</h3>
+        <p>Analyse des âges, salaires et satisfactions.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Graphiques</h3>
+        <p>Visualisation interactive des données.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    SmartCV – Gildas TATIENG · 2026
+  </footer>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCV – Formulaire</title>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSy...",
+      authDomain: "smartcv-gildas.firebaseapp.com",
+      databaseURL: "https://smartcv-gildas-default-rtdb.firebaseio.com/",
+      projectId: "smartcv-gildas"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.db = db;
+    window.ref = ref;
+    window.push = push;
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0A192F;
+      color: #E6F1FF;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #112240;
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid #65C2CC;
+    }
+
+    h1 {
+      text-align: center;
+      color: #65C2CC;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #FF9F1C;
+      margin-bottom: 30px;
+    }
+
+    .step {
+      display: none;
+      background: #172A45;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .step.active { display: block; }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      color: #65C2CC;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #65C2CC;
+      background: #0A192F;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #65C2CC;
+      color: #0A192F;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #65C2CC;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 20px; }
+      .btn-row { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>📝 SmartCV</h1>
+  <p class="subtitle">Formulaire carrière</p>
+
+  <!-- STEP 1 -->
+  <div id="step1" class="step active">
+    <h3>📌 Informations personnelles</h3>
+
+    <label>Nom complet</label>
+    <input type="text" id="nom">
+
+    <label>Âge</label>
+    <input type="number" id="age" min="1" max="100">
+
+    <label>Sexe</label>
+    <select id="sexe">
+      <option value="">Choisir...</option>
+      <option value="H">Homme</option>
+      <option value="F">Femme</option>
+    </select>
+
+    <label>Ville</label>
+    <input type="text" id="ville">
+
+    <div class="btn-row">
+      <button onclick="nextStep()" class="btn btn-primary">Suivant</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step2" class="step">
+    <h3>💼 Profil professionnel</h3>
+
+    <label>Statut</label>
+    <select id="statut">
+      <option value="">Choisir...</option>
+      <option>Étudiant</option>
+      <option>Salarié</option>
+      <option>Indépendant</option>
+      <option>Sans emploi</option>
+    </select>
+
+    <label>Niveau d’étude</label>
+    <select id="niveau_formation">
+      <option value="">Choisir...</option>
+      <option>CEP</option>
+      <option>BEPC</option>
+      <option>CAP</option>
+      <option>Baccalauréat</option>
+      <option>BTS / DUT</option>
+      <option>Licence</option>
+      <option>Master</option>
+      <option>Doctorat</option>
+      <option>Autodidacte</option>
+    </select>
+
+    <label>Années d’expérience</label>
+    <input type="number" id="experience_annees" min="0">
+
+    <div class="btn-row">
+      <button onclick="prevStep()" class="btn btn-secondary">Retour</button>
+      <button onclick="nextStep()" class="btn btn-primary">Suivant</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div id="step3" class="step">
+    <h3>💰 Finances</h3>
+
+    <label>Profession</label>
+    <select id="profession">
+      <option value="">Choisir...</option>
+      <option>Développeur</option>
+      <option>Data Analyst</option>
+      <option>Ingénieur</option>
+      <option>Technicien</option>
+      <option>Médecin</option>
+      <option>Infirmier</option>
+      <option>Enseignant</option>
+      <option>Comptable</option>
+      <option>Entrepreneur</option>
+      <option>Commerçant</option>
+      <option>Autre</option>
+    </select>
+
+    <label>Salaire mensuel</label>
+    <select id="salaire">
+      <option value="">Choisir...</option>
+      <option value="0-50000">0 - 50 000</option>
+      <option value="50000-150000">50 000 - 150 000</option>
+      <option value="150000-300000">150 000 - 300 000</option>
+      <option value="300000+">300 000 +</option>
+    </select>
+
+    <label>Satisfaction (1 à 10)</label>
+    <input type="range" id="satisfaction" min="1" max="10" value="5">
+
+    <div class="btn-row">
+      <button onclick="prevStep()" class="btn btn-secondary">Retour</button>
+      <button onclick="send()" class="btn btn-primary">Envoyer</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let step = 1;
+
+function show(s) {
+  document.querySelectorAll('.step').forEach(el => el.style.display = 'none');
+  document.getElementById('step'+s).style.display = 'block';
+}
+
+function nextStep() { step++; show(step); }
+function prevStep() { step--; show(step); }
+
+function send() {
+  const data = {
+    nom: nom.value.trim(),
+    age: parseInt(age.value),
+    sexe: sexe.value,
+    ville: ville.value.trim(),
+    statut: statut.value,
+    niveau_formation: niveau_formation.value,
+    experience: parseInt(experience_annees.value),
+    profession: profession.value,
+    salaire: salaire.value,
+    satisfaction: parseInt(satisfaction.value)
+  };
+
+  // Vérification champs vides
+  for (let k in data) {
+    if (data[k] === "" || data[k] === null || isNaN(data[k]) && (k === "age" || k === "experience")) {
+      return alert("⚠️ Remplis correctement tous les champs !");
+    }
+  }
+
+  // Vérifications avancées
+  if (data.age <= 0 || data.age > 100) return alert("⚠️ Âge invalide !");
+  if (data.experience < 0) return alert("⚠️ Expérience invalide !");
+  if (data.satisfaction < 1 || data.satisfaction > 10) return alert("⚠️ Satisfaction invalide !");
+
+  // Envoi Firebase
+  push(ref(window.db,'profil_carriere'), data)
+    .then(()=> {
+      alert("✅ Données envoyées !");
+      window.location.href = "data.html"; // ✅ REDIRECTION ICI
+    })
+    .catch(e=> alert(e.message));
+}
+</script>
+
+</body>
+</html>
